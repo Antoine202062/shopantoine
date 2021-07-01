@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{asset('css/nav.css')}}">{% endblock %}
+
+
+{% block body %}
+
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+<nav class="navbar navbar-expand-xl bg-dark">
+    <ul class="navbar-nav mr-list-group-horizontal-xl mt-2 mt-lg-0">
+        <li class="nav-item active">
+            <a class="nav-link text-light" href="{{ path('app_logout') }}">Se déconnecter</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link text-light" href="{{ path('cart_index') }}">Panier</a>
+        </li>
+    </ul>
+</nav>
+    {% else %}
+<nav class="navbar navbar-expand-xl bg-dark">
+    <ul class="navbar-nav mr-list-group-horizontal-xl mt-2 mt-lg-0">
+        <li class="nav-item active">
+            <a class="nav-link text-light" href="{{ path('app_login') }}">Se connecter</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link text-light" href="{{ path('app_register') }}">S'inscrire</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+<nav class="">
+    <ul class="">
+        <li class="">
+            {% for category in categories %}
+                <a class="" 
+                href="{{ path('show_product',{'productId': category.id, 'slug': category.slug}) }}">
+                {{category.title}}
+                </a>
+            {% endfor %}
+        </li>
+    </ul>
+</nav>
+{% endblock %}

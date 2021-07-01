@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+
+ <nav class="">
+    <ul class="">
+        <li class="">
+            {% for category in categories %}
+                <a class="" 
+                href="{{ path('show_product',{'productId': category.id, 'slug': category.slug}) }}">
+                {{category.title}}
+                </a>
+            {% endfor %}
+        </li>
+    </ul>
+</nav>
+    <div class="row">
+        <div class="col-12">
+            <section class="section">
+                <h1 class="section-header">Fichier produit</h1>
+                <div class="section-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <img src="{{ asset('uploads/pictures/products/' ~ product.pictures[0].name)}}" alt="{{product.title }}" height="400" width="300">
+                        </div>
+                        <div class="col-7">
+                        <h2 class="fs-1">{{product.title}}</h2>
+                        <span class="fs-5 text-muted mb-4 d-block">{{product.categories.title}}</span>
+                        <p class="mb-4">{{product.description}}</p>
+                        <div class="d-flex justify-content-between">
+                            <div class="mb-4 d-block">{{product.prise}} €</div>
+                        </div>
+                        <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-danger btn-lg">
+                            <span class="fas fa-cart-arrow-down"></span> Ajouter au panier
+                        </a>
+                        {# utilisateur connecter utilisateur = ROLE_USER #}
+                            {% if is_granted("ROLE_USER") %} 
+                            {% set isFavorite = false %}
+                            {% for favorite in product.favorites %}
+                            {# verification si l'id des favoris et le même id  de l'utilisateur #}
+                                {% if favorite.id == app.user.id %}
+                            {% set isFavorite = true %}
+                                {% endif %}
+                                {% endfor %}
+                            {% if isFavorite %}  
+                                {# coeur plein = fas fa-hear #}
+                                <a href="{{path('remove_favorite', {'productId': product.id, 'slug': product.slug})}}"><i class="fas fa-heart" style="    color: #F92A2A;
+                            position: absolute;
+                            left: 17rem;
+                            top: 200px;
+                            font-size: x-large;"></i></a>
+                                {% else %}
+                                {# coeur vide = far fa-hear #}
+                                <a href="{{ path('add_favorite', {'productId': product.id, 'slug': product.slug}) }}"><i class="far fa-heart" style="    color: #F92A2A;
+                            position: absolute;
+                            left: 17rem;
+                            top: 200px;
+                            font-size: x-large;"></i></a>
+                                {% endif %}
+                            {# si l'utilisateur n'a pas aimer #}
+                            {% else %}
+                                <i class="far fa-heart" style="color: #F92A2A;position: absolute;left: 17rem;top: 1rem; font-size: x-large;"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>  
+    </div>
+</div>
+
+{% endblock %}

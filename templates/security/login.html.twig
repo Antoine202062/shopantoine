@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connectez-vous!{% endblock %}
+
+{#  doc : https://bbbootstrap.com/snippets/animated-login-form-95290954 #}
+
+{% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+        {% endblock %}
+
+
+{% block body %}
+    <form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    
+    
+    {# <a href="{{ path('app_register') }}" class="navbar-item">
+                            S'inscrire
+                        </a><br> #}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                        <div class="box">
+                            <h1>Connectez-vous</h1>
+
+                            <p class="text-muted"> Veuillez entrer votre identifiant et votre mot de passe !</p>
+                        
+                            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" placeholder="Nom de l'utilisateur">
+    
+                            <input type="password" name="password" id="inputPassword" placeholder="Mot de passe">
+
+                            <a class="forgot text-muted" href="#">Mot de passe oublié ?</a>
+
+                            <input type="hidden" name="_csrf_token"
+                            value="{{ csrf_token('authenticate') }}">
+
+                            <input type="submit" name="submit" value="Connexion" href="app_home">
+
+                            <div class="col-md-12">
+                                <ul class="social-network social-circle">
+                                     <li><a href="#" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                     <li><a href="#" class="icoTwitter" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#" class="icoGoogle" title="Google +"><i class="fab fa-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+            </div>
+         </div>
+         </form>
+{% endblock %}
